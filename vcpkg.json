@@ -1,0 +1,11 @@
+{
+  "name": "main",
+  "version-string": "latest",
+  "dependencies": [
+    {"name": "fmt"},
+    {"name": "boost-config"},
+    {"name": "flatbuffers"},
+    {"name": "benchmark"},
+    {"name": "rocksdb", "features": ["zstd", "snappy", "tbb"]}
+  ]
+}
