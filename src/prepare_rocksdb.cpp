@@ -15,10 +15,10 @@ using ROCKSDB_NAMESPACE::Options;
 using ROCKSDB_NAMESPACE::Status;
 using ROCKSDB_NAMESPACE::WriteOptions;
 
-const std::string kDBPath_for_get = "rocksdb_benchmark_get";
+const std::string kDBPath_for_get = "rocksdb_benchmark";
 const std::string kDBOptions_config_file = "./conf/conf.ini";
 
-const long MAX_ITEMS = 100000000;
+const long MAX_ITEMS = 200000000;
 
 void printUsage() {
     std::cout << "Usage:\n\n \t\t ./prepare_rocksdb recordCnt dbPath cfgPath" << std::endl;

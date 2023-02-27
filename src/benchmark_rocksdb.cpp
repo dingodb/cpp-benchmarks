@@ -10,46 +10,41 @@
 #include <rocksdb/slice.h>
 
 #include <benchmark/benchmark.h>
+#include "rocksdb_wrapper.h"
 
 #include "utils.h"
 
 using ROCKSDB_NAMESPACE::DB;
-using ROCKSDB_NAMESPACE::Options;
+using ROCKSDB_NAMESPACE::DBOptions;
 using ROCKSDB_NAMESPACE::Iterator;
 using ROCKSDB_NAMESPACE::ReadOptions;
 using ROCKSDB_NAMESPACE::Status;
 using ROCKSDB_NAMESPACE::WriteOptions;
 
-const std::string kDBPath_for_put = "rocksdb_benchmark_put";
-const std::string kDBPath_for_get = "rocksdb_benchmark_get";
+const std::string kDBPath = "rocksdb_benchmark";
+const std::string kDB_cfg_path = "./conf/conf.ini";
 DB* db;
-Options options;
+dingodb::RocksOper* rocks_oper;
 
 /**
   * Setup and Teardown Empty Database for Testing Put
   */
 static void DoSetup_for_EmptyDb(const benchmark::State& state) {
-  options.create_if_missing = true;
-  options.IncreaseParallelism();
-  options.OptimizeLevelStyleCompaction();
-
-    // open DB
-  Status s = DB::Open(options, kDBPath_for_put, &db);
-  assert(s.ok());
+  rocks_oper = dingodb::RocksOper::get_instance(
+      kDBPath,
+      kDB_cfg_path);
+  db = rocks_oper->get_rocksdb();
+  assert(nullptr != db);
 }
 
 static void DoTeardown_for_EmptyDb(const benchmark::State& state) {
   // Cleanup
-  delete db;
-  db = nullptr;
-  ROCKSDB_NAMESPACE::DestroyDB(kDBPath_for_put, options);
 }
 
 static void BM_rocksdb_put(benchmark::State& state) {
   Status s;
 
   for (auto _ : state) {
-    // for (int i = 0; i < 1000; i++) {
       state.PauseTiming();
       std::string key = gen_random(state.range(0));
       std::string val = gen_random(state.range(1));
@@ -58,7 +53,6 @@ static void BM_rocksdb_put(benchmark::State& state) {
       // Put single key-value
       s = db->Put(WriteOptions(), key, val);
       assert(s.ok());
-    // }
   }
 }
 BENCHMARK(BM_rocksdb_put)
@@ -73,20 +67,14 @@ BENCHMARK(BM_rocksdb_put)
   * Setup and Teardown Empty Database for Testing Put
   */
 static void DoSetup_for_Get(const benchmark::State& state) {
-  options.create_if_missing = true;
-  options.IncreaseParallelism();
-  options.OptimizeLevelStyleCompaction();
-
-    // open DB
-  Status s = DB::Open(options, kDBPath_for_get, &db);
-  assert(s.ok());
+  rocks_oper = dingodb::RocksOper::get_instance(
+      kDBPath,
+      kDB_cfg_path);
+  db = rocks_oper->get_rocksdb();
+  assert(db != nullptr);
 }
 
 static void DoTeardown_for_Get(const benchmark::State& state) {
-  // Cleanup
-  delete db;
-  db = nullptr;
-  // ROCKSDB_NAMESPACE::DestroyDB(kDBPath_for_get, options);
 }
 
 static void BM_rocksdb_get(benchmark::State& state) {
@@ -96,7 +84,6 @@ static void BM_rocksdb_get(benchmark::State& state) {
     state.PauseTiming();
     int nKey = rand() % 100000;
     std::string key = fmt::format("{:08}", nKey);
-
     state.ResumeTiming();
 
     std::string val;
