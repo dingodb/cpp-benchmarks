@@ -33,6 +33,11 @@ target_sources(sample_text PRIVATE src/sample_text.cpp)
 target_link_libraries(sample_text PRIVATE fmt::fmt flatbuffers::flatbuffers)
 set_property(TARGET sample_text PROPERTY CXX_STANDARD 20)
 
+add_executable(sample_flexbuffer)
+target_sources(sample_flexbuffer PRIVATE src/sample_flexbuffer.cpp)
+target_link_libraries(sample_flexbuffer PRIVATE fmt::fmt flatbuffers::flatbuffers)
+set_property(TARGET sample_flexbuffer PROPERTY CXX_STANDARD 20)
+
 add_executable(main_txn_rocksdb)
 target_sources(main_txn_rocksdb PRIVATE src/main_txn_rocksdb.cpp src/utils.cpp)
 target_link_libraries(main_txn_rocksdb PRIVATE fmt::fmt RocksDB::rocksdb)
