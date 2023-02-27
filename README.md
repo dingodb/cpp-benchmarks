@@ -9,6 +9,7 @@ Supports `Linux`/`macOS`/`Windows` on `x64` and `arm64`.
 ## Build
 
 ```shell
+git clone --recursive git@github.com:dingodb/cpp-benchmarks.git
 cmake --preset ninja-multiconfiguration-vcpkg
 cmake --build ./builds/ninja-multiconfiguration-vcpkg/ --config Release
 ```

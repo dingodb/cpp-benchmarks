@@ -54,7 +54,7 @@ target_link_libraries(main_txn_rocksdb PRIVATE fmt::fmt RocksDB::rocksdb)
 set_property(TARGET main_txn_rocksdb PROPERTY CXX_STANDARD 20)
 
 add_executable(prepare_rocksdb)
-target_sources(prepare_rocksdb PRIVATE src/prepare_rocksdb.cpp src/utils.cpp)
+target_sources(prepare_rocksdb PRIVATE src/prepare_rocksdb.cpp src/utils.cpp src/rocksdb_wrapper.cpp)
 target_link_libraries(prepare_rocksdb PRIVATE fmt::fmt RocksDB::rocksdb)
 set_property(TARGET prepare_rocksdb PROPERTY CXX_STANDARD 20)
 
