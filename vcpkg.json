@@ -6,6 +6,7 @@
     {"name": "boost-config"},
     {"name": "flatbuffers"},
     {"name": "benchmark"},
-    {"name": "rocksdb", "features": ["zstd", "snappy", "tbb"]}
+    {"name": "rocksdb", "features": ["zstd", "snappy", "tbb"]},
+    {"name": "luajit"}
   ]
 }

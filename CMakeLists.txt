@@ -11,6 +11,9 @@ find_package(flatbuffers CONFIG REQUIRED)
 find_package(RocksDB CONFIG REQUIRED)
 find_package(benchmark CONFIG REQUIRED)
 
+find_package(PkgConfig)
+pkg_check_modules(luajit REQUIRED luajit)
+
 # main target
 add_executable(main)
 target_sources(main PRIVATE src/main.cpp)
@@ -37,6 +40,13 @@ add_executable(sample_flexbuffer)
 target_sources(sample_flexbuffer PRIVATE src/sample_flexbuffer.cpp)
 target_link_libraries(sample_flexbuffer PRIVATE fmt::fmt flatbuffers::flatbuffers)
 set_property(TARGET sample_flexbuffer PROPERTY CXX_STANDARD 20)
+
+add_executable(sample_luajit)
+target_sources(sample_luajit PRIVATE src/sample_luajit.cpp)
+# target_include_directories(sample_luajit PUBLIC ${luajit_INCLUDE_DIR})
+# target_link_libraries(sample_luajit PRIVATE fmt::fmt ${luajit_STATIC_LIBRARIES})
+target_link_libraries(sample_luajit PRIVATE fmt::fmt ${luajit_LDFLAGS} ${luajit_LIBRARIES})
+set_property(TARGET sample_luajit PROPERTY CXX_STANDARD 20)
 
 add_executable(main_txn_rocksdb)
 target_sources(main_txn_rocksdb PRIVATE src/main_txn_rocksdb.cpp src/utils.cpp)
