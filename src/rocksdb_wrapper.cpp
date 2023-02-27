@@ -15,7 +15,6 @@ namespace dingodb {
 
 RocksOper::RocksOper(std::string db_path, std::string db_cfg_file) {
   ConfigOptions config_options;
-  DBOptions     db_options;
   std::vector<ColumnFamilyDescriptor> cf_descs;
   Status s = LoadOptionsFromFile(config_options, db_cfg_file, &db_options, &cf_descs);
   if (!s.ok()) {
@@ -41,7 +40,12 @@ ROCKSDB_NAMESPACE::DB* RocksOper::get_rocksdb() {
    return nullptr;
 }
 
+ROCKSDB_NAMESPACE::DBOptions* RocksOper::get_options() {
+  return &db_options;
+}
+
 void RocksOper::close_instance() {
+  is_init = false;
   db->Close();
   delete db;
   db = nullptr;
