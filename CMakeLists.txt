@@ -64,9 +64,14 @@ target_link_libraries(benchmark_rocksdb PRIVATE fmt::fmt benchmark::benchmark be
 set_property(TARGET benchmark_rocksdb PROPERTY CXX_STANDARD 20)
 
 add_executable(benchmark_txn_rocksdb)
-target_sources(benchmark_txn_rocksdb PRIVATE src/benchmark_txn_rocksdb.cpp src/rocksdb_wrapper.cpp)
+target_sources(benchmark_txn_rocksdb PRIVATE src/benchmark_txn_rocksdb.cpp src/utils.cpp src/rocksdb_txn_wrapper.cpp)
 target_link_libraries(benchmark_txn_rocksdb PRIVATE fmt::fmt benchmark::benchmark benchmark::benchmark_main RocksDB::rocksdb)
 set_property(TARGET benchmark_txn_rocksdb PROPERTY CXX_STANDARD 20)
+
+add_executable(benchmark_opt_txn_rocksdb)
+target_sources(benchmark_opt_txn_rocksdb PRIVATE src/benchmark_opt_txn_rocksdb.cpp src/utils.cpp src/rocksdb_txn_wrapper.cpp)
+target_link_libraries(benchmark_opt_txn_rocksdb PRIVATE fmt::fmt benchmark::benchmark benchmark::benchmark_main RocksDB::rocksdb)
+set_property(TARGET benchmark_opt_txn_rocksdb PROPERTY CXX_STANDARD 20)
 
 add_executable(benchmark)
 target_sources(benchmark PRIVATE src/benchmark.cpp)
