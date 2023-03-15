@@ -25,7 +25,7 @@ RocksOper::RocksOper(std::string db_path, std::string db_cfg_file) {
   db_options.create_if_missing = true;
   s = DB::Open(db_options, db_path, cf_descs, &handles, &db);
   if (!s.ok()) {
-    std::cout << "DB Open Failed." << std::endl;
+    std::cout << "DB Open Failed, status: " << s.ToString() << std::endl;
   } else {
     is_init = true;
     std::cout << "DB Init Success:PTR" << db << ", " << std::endl;
@@ -33,22 +33,25 @@ RocksOper::RocksOper(std::string db_path, std::string db_cfg_file) {
 }
 
 ROCKSDB_NAMESPACE::DB* RocksOper::get_rocksdb() {
-   if (is_init) {
-     return db;
-   }
-  std::cout << "DB get rocksdb Success:PTR" << db << ", " << std::endl;
-   return nullptr;
+  if (is_init) {
+    return db;
+  }
+
+  std::cout << "ERROR, DB get rocksdb Failed:PTR, " << db
+      << ", " << std::endl;
+  return nullptr;
 }
 
 ROCKSDB_NAMESPACE::DBOptions* RocksOper::get_options() {
   return &db_options;
 }
 
-void RocksOper::close_instance() {
+void RocksOper::close_db() {
   is_init = false;
-  db->Close();
-  delete db;
-  db = nullptr;
+  if(db != nullptr) {
+    delete db;
+    db = nullptr;
+  }
 }
 
 }

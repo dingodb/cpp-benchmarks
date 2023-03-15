@@ -6,7 +6,14 @@
     {"name": "boost-config"},
     {"name": "flatbuffers"},
     {"name": "benchmark"},
-    {"name": "rocksdb", "features": ["zstd", "snappy", "tbb"]},
+    {"name": "rocksdb", "features": ["zstd", "zlib", "lz4", "snappy", "tbb"]},
     {"name": "luajit"}
+  ],
+  "builtin-baseline": "a325228200d7f229f3337e612e0077f2a5307090",
+  "overrides": [
+    {   
+      "name": "rocksdb",
+      "version": "7.7.3"
+    }   
   ]
 }

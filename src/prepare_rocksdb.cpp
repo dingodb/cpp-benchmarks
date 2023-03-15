@@ -62,6 +62,6 @@ int main(int argc, char* argv[]) {
     s = db->Put(WriteOptions(), key, val);
     assert(s.ok());
   }
-  rocks_oper->close_instance();
+  rocks_oper->close_db();
   return 0;
 }
